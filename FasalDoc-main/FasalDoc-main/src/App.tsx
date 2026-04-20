@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, useColorScheme } from 'react-native';
 import { initI18n } from './i18n';
-import { initDB } from './services/offlineDB'; // ✅ updated
-import { loadModel } from './services/tflite';
+import { initDB, getUnsyncedScans, markSynced } from './services/offlineDB';
 import { setupNotifications } from './services/notifications';
 import AppNavigator from './navigation/AppNavigator';
 import { getColors } from './constants/colors';
 import NetInfo from '@react-native-community/netinfo';
-import { getAllScans } from './services/offlineDB'; // ⚠️ placeholder if needed
 import { syncHistory } from './services/api';
 
 const App: React.FC = () => {
@@ -23,35 +21,24 @@ const App: React.FC = () => {
         // ✅ Init i18n
         await initI18n();
 
-        // ✅ Init SQLite (sync function, no await needed)
+        // ✅ Init SQLite (new sync API)
         initDB();
-
-        // ✅ Load TFLite model (non-blocking)
-        loadModel().catch((e) =>
-          console.warn('[App] Model load failed:', e)
-        );
 
         // ✅ Setup notifications
         await setupNotifications();
 
-        // ✅ Network sync listener
+        // ✅ Network sync listener — sync unsynced records when online
         unsubscribe = NetInfo.addEventListener(async (state) => {
           if (state.isConnected) {
             try {
-              // ⚠️ TEMP: replace with your actual unsynced logic
-              // (since we removed old DB functions)
-              getAllScans(async (records) => {
-                if (records.length > 0) {
-                  try {
-                    await syncHistory(records);
-                    console.log('✅ Synced data');
-                  } catch {
-                    console.log('❌ Sync failed');
-                  }
-                }
-              });
+              const unsynced = getUnsyncedScans();
+              if (unsynced.length > 0) {
+                await syncHistory(unsynced);
+                unsynced.forEach((r) => markSynced(r.id));
+                console.log(`✅ Synced ${unsynced.length} records`);
+              }
             } catch {
-              // silent fail
+              // silent fail — will retry on next connection
             }
           }
         });
@@ -59,7 +46,7 @@ const App: React.FC = () => {
         setIsReady(true);
       } catch (err) {
         console.error('[App] Bootstrap failed:', err);
-        setIsReady(true);
+        setIsReady(true); // still show app even if bootstrap partially fails
       }
     };
 

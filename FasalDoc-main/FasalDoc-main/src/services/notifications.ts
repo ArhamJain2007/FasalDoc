@@ -1,4 +1,3 @@
-import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import { Platform, Alert } from 'react-native';
 import { registerFCMToken } from './api';
 
@@ -13,30 +12,37 @@ export const setNavigationRef = (ref: NavigationRef): void => {
 };
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
-  if (Platform.OS === 'ios') {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    return enabled;
+  try {
+    if (Platform.OS === 'ios') {
+      const messaging = require('@react-native-firebase/messaging').default;
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === require('@react-native-firebase/messaging').default.AuthorizationStatus.AUTHORIZED ||
+        authStatus === require('@react-native-firebase/messaging').default.AuthorizationStatus.PROVISIONAL;
+      return enabled;
+    }
+    // Android 13+ requires explicit permission
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      const { PermissionsAndroid } = require('react-native');
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    }
+    return true;
+  } catch (err) {
+    console.warn('[FCM] Permission request failed:', err);
+    return false;
   }
-  // Android 13+ requires explicit permission
-  if (Platform.OS === 'android' && Platform.Version >= 33) {
-    const { PermissionsAndroid } = await import('react-native');
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-    );
-    return granted === PermissionsAndroid.RESULTS.GRANTED;
-  }
-  return true;
 };
 
 export const getFCMToken = async (): Promise<string | null> => {
   try {
+    const messaging = require('@react-native-firebase/messaging').default;
     const token = await messaging().getToken();
     return token;
   } catch (err) {
-    console.error('[FCM] Failed to get token:', err);
+    console.warn('[FCM] Failed to get token:', err);
     return null;
   }
 };
@@ -54,47 +60,54 @@ export const registerDeviceToken = async (): Promise<void> => {
 };
 
 export const setupNotifications = async (): Promise<void> => {
-  const hasPermission = await requestNotificationPermission();
-  if (!hasPermission) {
-    console.warn('[FCM] Notification permission not granted');
-    return;
-  }
-
-  await registerDeviceToken();
-
-  // Listen for token refresh
-  messaging().onTokenRefresh(async (token) => {
-    try {
-      await registerFCMToken(token);
-    } catch {
-      // ignore
+  try {
+    const hasPermission = await requestNotificationPermission();
+    if (!hasPermission) {
+      console.warn('[FCM] Notification permission not granted');
+      return;
     }
-  });
 
-  // Handle foreground messages
-  messaging().onMessage(async (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
-    const title = remoteMessage.notification?.title ?? 'FasalDoc Alert';
-    const body = remoteMessage.notification?.body ?? '';
+    await registerDeviceToken();
 
-    Alert.alert(title, body, [
-      {
-        text: 'View Alerts',
-        onPress: () => navigationRef?.navigate('Alerts'),
-      },
-      { text: 'Dismiss', style: 'cancel' },
-    ]);
-  });
+    const messaging = require('@react-native-firebase/messaging').default;
 
-  // Handle background/quit message tap
-  messaging().onNotificationOpenedApp(() => {
-    navigationRef?.navigate('Alerts');
-  });
+    // Listen for token refresh
+    messaging().onTokenRefresh(async (token: string) => {
+      try {
+        await registerFCMToken(token);
+      } catch {
+        // ignore
+      }
+    });
 
-  // Handle quit state notification tap
-  const initialMessage = await messaging().getInitialNotification();
-  if (initialMessage) {
-    setTimeout(() => {
+    // Handle foreground messages
+    messaging().onMessage(async (remoteMessage: any) => {
+      const title = remoteMessage.notification?.title ?? 'FasalDoc Alert';
+      const body = remoteMessage.notification?.body ?? '';
+
+      Alert.alert(title, body, [
+        {
+          text: 'View Alerts',
+          onPress: () => navigationRef?.navigate('Alerts'),
+        },
+        { text: 'Dismiss', style: 'cancel' },
+      ]);
+    });
+
+    // Handle background/quit message tap
+    messaging().onNotificationOpenedApp(() => {
       navigationRef?.navigate('Alerts');
-    }, 1000);
+    });
+
+    // Handle quit state notification tap
+    const initialMessage = await messaging().getInitialNotification();
+    if (initialMessage) {
+      setTimeout(() => {
+        navigationRef?.navigate('Alerts');
+      }, 1000);
+    }
+  } catch (err) {
+    // Firebase may not be configured in dev — don't crash the app
+    console.warn('[FCM] Notifications setup skipped:', err);
   }
 };

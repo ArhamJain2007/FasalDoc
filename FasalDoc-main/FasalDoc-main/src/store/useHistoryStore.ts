@@ -31,23 +31,32 @@ export const useHistoryStore = create<HistoryState>((set) => ({
   isLoading: false,
 
   addScan: async (record: ScanRecord) => {
-    await insertScan(record);
-    set((state) => ({ scans: [record, ...state.scans] }));
+    try {
+      insertScan(record);
+      set((state) => ({ scans: [record, ...state.scans] }));
+    } catch (err) {
+      console.error('[HistoryStore] addScan failed:', err);
+    }
   },
 
   updateStatus: async (id: string, status: ScanStatus) => {
-    await updateScanStatus(id, status);
-    set((state) => ({
-      scans: state.scans.map((s) => (s.id === id ? { ...s, status } : s)),
-    }));
+    try {
+      updateScanStatus(id, status);
+      set((state) => ({
+        scans: state.scans.map((s) => (s.id === id ? { ...s, status } : s)),
+      }));
+    } catch (err) {
+      console.error('[HistoryStore] updateStatus failed:', err);
+    }
   },
 
   loadFromDB: async () => {
     set({ isLoading: true });
     try {
-      const scans = await getAllScans();
+      const scans = getAllScans();
       set({ scans, isLoading: false });
-    } catch {
+    } catch (err) {
+      console.error('[HistoryStore] loadFromDB failed:', err);
       set({ isLoading: false });
     }
   },
