@@ -1,0 +1,114 @@
+{
+  "app": {
+    "name": "FasalDoc"
+  },
+  "scan": {
+    "title": "Scan a leaf",
+    "cameraBtn": "Camera",
+    "galleryBtn": "Gallery",
+    "analyzeBtn": "Analyze",
+    "offline": "Offline mode — using on-device AI",
+    "placeholder": "Tap camera or upload a leaf photo",
+    "analyzing": "Analyzing...",
+    "seeReport": "See full report →",
+    "resultReady": "Result ready"
+  },
+  "result": {
+    "confidence": "AI Confidence",
+    "stage": "Stage",
+    "viewTreatment": "View treatment plan",
+    "saveHistory": "Save to history",
+    "relatedDiseases": "Similar conditions",
+    "description": "Description",
+    "severity": "Severity",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "saved": "Saved to history"
+  },
+  "history": {
+    "title": "Scan history",
+    "empty": "No scans yet. Point your camera at a leaf!",
+    "synced": "Synced across devices · Cached offline",
+    "filter": {
+      "all": "All",
+      "active": "Active",
+      "treated": "Treated",
+      "resolved": "Resolved"
+    },
+    "status": {
+      "active": "Active",
+      "treated": "Treated",
+      "resolved": "Resolved"
+    }
+  },
+  "alerts": {
+    "title": "Seasonal alerts",
+    "noAlerts": "No alerts for this region",
+    "location": "Location",
+    "pullToRefresh": "Pull to refresh",
+    "region": {
+      "punjab": "Punjab",
+      "haryana": "Haryana",
+      "up": "UP",
+      "delhi": "Delhi NCR",
+      "rajasthan": "Rajasthan",
+      "mp": "Madhya Pradesh",
+      "maharashtra": "Maharashtra"
+    },
+    "type": {
+      "danger": "High risk",
+      "warning": "Forecast",
+      "info": "Tip"
+    }
+  },
+  "treatment": {
+    "title": "Treatment plan",
+    "organic": "Organic options",
+    "chemical": "Chemical pesticides",
+    "dosage": "Dosage & schedule",
+    "findStore": "Find nearby store",
+    "shareHindi": "Share in Hindi",
+    "noTreatment": "No treatment data available"
+  },
+  "settings": {
+    "language": "Language",
+    "languageLabel": "App language",
+    "notifications": "Notifications",
+    "seasonalAlerts": "Seasonal disease alerts",
+    "weeklyTips": "Weekly crop health tips",
+    "highRiskWarnings": "High-risk warnings",
+    "offlineModel": "Offline model",
+    "modelName": "On-device AI model",
+    "updateModel": "Update model",
+    "account": "Account",
+    "farmerName": "Farmer name",
+    "primaryCrops": "Primary crops",
+    "region": "Region",
+    "about": "About",
+    "version": "App version",
+    "rateApp": "Rate the app",
+    "crops": {
+      "wheat": "Wheat",
+      "tomato": "Tomato",
+      "maize": "Maize",
+      "rice": "Rice",
+      "cotton": "Cotton",
+      "potato": "Potato",
+      "mustard": "Mustard",
+      "soybean": "Soybean"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "back": "Back",
+    "save": "Save",
+    "notificationPermission": "Allow FasalDoc to send you seasonal disease alerts?",
+    "allow": "Allow",
+    "deny": "Deny"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "app": {
+    "name": "ਫਸਲਡਾਕ"
+  },
+  "scan": {
+    "title": "ਪੱਤਾ ਸਕੈਨ ਕਰੋ",
+    "cameraBtn": "ਕੈਮਰਾ",
+    "galleryBtn": "ਗੈਲਰੀ",
+    "analyzeBtn": "ਵਿਸ਼ਲੇਸ਼ਣ ਕਰੋ",
+    "offline": "ਆਫਲਾਈਨ ਮੋਡ — ਡਿਵਾਈਸ AI ਵਰਤਿਆ ਜਾ ਰਿਹਾ ਹੈ",
+    "placeholder": "ਕੈਮਰਾ ਦਬਾਓ ਜਾਂ ਪੱਤੇ ਦੀ ਫੋਟੋ ਅਪਲੋਡ ਕਰੋ",
+    "analyzing": "ਵਿਸ਼ਲੇਸ਼ਣ ਹੋ ਰਿਹਾ ਹੈ...",
+    "seeReport": "ਪੂਰੀ ਰਿਪੋਰਟ ਦੇਖੋ →",
+    "resultReady": "ਨਤੀਜਾ ਤਿਆਰ ਹੈ"
+  },
+  "result": {
+    "confidence": "AI ਭਰੋਸਾ",
+    "stage": "ਪੜਾਅ",
+    "viewTreatment": "ਇਲਾਜ ਯੋਜਨਾ ਦੇਖੋ",
+    "saveHistory": "ਇਤਿਹਾਸ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "relatedDiseases": "ਮਿਲਦੀਆਂ-ਜੁਲਦੀਆਂ ਸਥਿਤੀਆਂ",
+    "description": "ਵੇਰਵਾ",
+    "severity": "ਗੰਭੀਰਤਾ",
+    "low": "ਘੱਟ",
+    "medium": "ਦਰਮਿਆਨਾ",
+    "high": "ਵੱਧ",
+    "saved": "ਇਤਿਹਾਸ ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕੀਤਾ"
+  },
+  "history": {
+    "title": "ਸਕੈਨ ਇਤਿਹਾਸ",
+    "empty": "ਅਜੇ ਕੋਈ ਸਕੈਨ ਨਹੀਂ। ਪੱਤੇ 'ਤੇ ਕੈਮਰਾ ਲਗਾਓ!",
+    "synced": "ਸਾਰੇ ਡਿਵਾਈਸਾਂ ਤੇ ਸਿੰਕ · ਆਫਲਾਈਨ ਕੈਸ਼ਡ",
+    "filter": {
+      "all": "ਸਭ",
+      "active": "ਸਰਗਰਮ",
+      "treated": "ਇਲਾਜਿਆ",
+      "resolved": "ਹੱਲ ਹੋਇਆ"
+    },
+    "status": {
+      "active": "ਸਰਗਰਮ",
+      "treated": "ਇਲਾਜਿਆ",
+      "resolved": "ਹੱਲ ਹੋਇਆ"
+    }
+  },
+  "alerts": {
+    "title": "ਮੌਸਮੀ ਚੇਤਾਵਨੀਆਂ",
+    "noAlerts": "ਇਸ ਖੇਤਰ ਲਈ ਕੋਈ ਚੇਤਾਵਨੀ ਨਹੀਂ",
+    "location": "ਸਥਾਨ",
+    "pullToRefresh": "ਤਾਜ਼ਾ ਕਰਨ ਲਈ ਖਿੱਚੋ",
+    "region": {
+      "punjab": "ਪੰਜਾਬ",
+      "haryana": "ਹਰਿਆਣਾ",
+      "up": "ਉੱਤਰ ਪ੍ਰਦੇਸ਼",
+      "delhi": "ਦਿੱਲੀ NCR",
+      "rajasthan": "ਰਾਜਸਥਾਨ",
+      "mp": "ਮੱਧ ਪ੍ਰਦੇਸ਼",
+      "maharashtra": "ਮਹਾਰਾਸ਼ਟਰ"
+    },
+    "type": {
+      "danger": "ਉੱਚ ਖਤਰਾ",
+      "warning": "ਪੂਰਵ-ਅਨੁਮਾਨ",
+      "info": "ਸੁਝਾਅ"
+    }
+  },
+  "treatment": {
+    "title": "ਇਲਾਜ ਯੋਜਨਾ",
+    "organic": "ਜੈਵਿਕ ਵਿਕਲਪ",
+    "chemical": "ਰਸਾਇਣਕ ਕੀਟਨਾਸ਼ਕ",
+    "dosage": "ਖੁਰਾਕ ਅਤੇ ਸਮਾਂ",
+    "findStore": "ਨੇੜੇ ਸਟੋਰ ਲੱਭੋ",
+    "shareHindi": "ਹਿੰਦੀ ਵਿੱਚ ਸਾਂਝਾ ਕਰੋ",
+    "noTreatment": "ਇਲਾਜ ਡੇਟਾ ਉਪਲਬਧ ਨਹੀਂ"
+  },
+  "settings": {
+    "language": "ਭਾਸ਼ਾ",
+    "languageLabel": "ਐਪ ਦੀ ਭਾਸ਼ਾ",
+    "notifications": "ਸੂਚਨਾਵਾਂ",
+    "seasonalAlerts": "ਮੌਸਮੀ ਰੋਗ ਚੇਤਾਵਨੀਆਂ",
+    "weeklyTips": "ਹਫਤਾਵਾਰ ਫਸਲ ਸਿਹਤ ਸੁਝਾਅ",
+    "highRiskWarnings": "ਉੱਚ-ਖਤਰੇ ਦੀਆਂ ਚੇਤਾਵਨੀਆਂ",
+    "offlineModel": "ਆਫਲਾਈਨ ਮਾਡਲ",
+    "modelName": "ਡਿਵਾਈਸ AI ਮਾਡਲ",
+    "updateModel": "ਮਾਡਲ ਅੱਪਡੇਟ ਕਰੋ",
+    "account": "ਖਾਤਾ",
+    "farmerName": "ਕਿਸਾਨ ਦਾ ਨਾਮ",
+    "primaryCrops": "ਮੁੱਖ ਫਸਲਾਂ",
+    "region": "ਖੇਤਰ",
+    "about": "ਬਾਰੇ",
+    "version": "ਐਪ ਵਰਜ਼ਨ",
+    "rateApp": "ਐਪ ਰੇਟ ਕਰੋ",
+    "crops": {
+      "wheat": "ਕਣਕ",
+      "tomato": "ਟਮਾਟਰ",
+      "maize": "ਮੱਕੀ",
+      "rice": "ਚੌਲ",
+      "cotton": "ਕਪਾਹ",
+      "potato": "ਆਲੂ",
+      "mustard": "ਸਰ੍ਹੋਂ",
+      "soybean": "ਸੋਇਆਬੀਨ"
+    }
+  },
+  "common": {
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...",
+    "error": "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ",
+    "retry": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "ok": "ਠੀਕ ਹੈ",
+    "back": "ਵਾਪਸ",
+    "save": "ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "notificationPermission": "ਕੀ FasalDoc ਨੂੰ ਮੌਸਮੀ ਰੋਗ ਚੇਤਾਵਨੀਆਂ ਭੇਜਣ ਦੀ ਆਗਿਆ ਦੇਣੀ ਹੈ?",
+    "allow": "ਆਗਿਆ ਦਿਓ",
+    "deny": "ਇਨਕਾਰ ਕਰੋ"
+  }
+}

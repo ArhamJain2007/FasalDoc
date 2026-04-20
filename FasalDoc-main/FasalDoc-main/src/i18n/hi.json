@@ -1,0 +1,114 @@
+{
+  "app": {
+    "name": "फसलडॉक"
+  },
+  "scan": {
+    "title": "पत्ती स्कैन करें",
+    "cameraBtn": "कैमरा",
+    "galleryBtn": "गैलरी",
+    "analyzeBtn": "विश्लेषण करें",
+    "offline": "ऑफलाइन मोड — डिवाइस AI उपयोग हो रहा है",
+    "placeholder": "कैमरा दबाएं या पत्ती की फोटो अपलोड करें",
+    "analyzing": "विश्लेषण हो रहा है...",
+    "seeReport": "पूरी रिपोर्ट देखें →",
+    "resultReady": "परिणाम तैयार है"
+  },
+  "result": {
+    "confidence": "AI विश्वास",
+    "stage": "चरण",
+    "viewTreatment": "उपचार योजना देखें",
+    "saveHistory": "इतिहास में सहेजें",
+    "relatedDiseases": "समान स्थितियाँ",
+    "description": "विवरण",
+    "severity": "गंभीरता",
+    "low": "कम",
+    "medium": "मध्यम",
+    "high": "अधिक",
+    "saved": "इतिहास में सहेजा गया"
+  },
+  "history": {
+    "title": "स्कैन इतिहास",
+    "empty": "अभी तक कोई स्कैन नहीं। पत्ती पर कैमरा लगाएं!",
+    "synced": "सभी डिवाइस पर सिंक · ऑफलाइन कैश्ड",
+    "filter": {
+      "all": "सभी",
+      "active": "सक्रिय",
+      "treated": "उपचारित",
+      "resolved": "हल हो गया"
+    },
+    "status": {
+      "active": "सक्रिय",
+      "treated": "उपचारित",
+      "resolved": "हल हो गया"
+    }
+  },
+  "alerts": {
+    "title": "मौसमी अलर्ट",
+    "noAlerts": "इस क्षेत्र के लिए कोई अलर्ट नहीं",
+    "location": "स्थान",
+    "pullToRefresh": "रिफ्रेश के लिए खींचें",
+    "region": {
+      "punjab": "पंजाब",
+      "haryana": "हरियाणा",
+      "up": "उत्तर प्रदेश",
+      "delhi": "दिल्ली NCR",
+      "rajasthan": "राजस्थान",
+      "mp": "मध्य प्रदेश",
+      "maharashtra": "महाराष्ट्र"
+    },
+    "type": {
+      "danger": "उच्च जोखिम",
+      "warning": "पूर्वानुमान",
+      "info": "सुझाव"
+    }
+  },
+  "treatment": {
+    "title": "उपचार योजना",
+    "organic": "जैविक विकल्प",
+    "chemical": "रासायनिक कीटनाशक",
+    "dosage": "खुराक और समय",
+    "findStore": "नजदीकी स्टोर खोजें",
+    "shareHindi": "हिंदी में शेयर करें",
+    "noTreatment": "उपचार डेटा उपलब्ध नहीं"
+  },
+  "settings": {
+    "language": "भाषा",
+    "languageLabel": "ऐप की भाषा",
+    "notifications": "सूचनाएं",
+    "seasonalAlerts": "मौसमी रोग अलर्ट",
+    "weeklyTips": "साप्ताहिक फसल स्वास्थ्य सुझाव",
+    "highRiskWarnings": "उच्च जोखिम चेतावनी",
+    "offlineModel": "ऑफलाइन मॉडल",
+    "modelName": "डिवाइस AI मॉडल",
+    "updateModel": "मॉडल अपडेट करें",
+    "account": "खाता",
+    "farmerName": "किसान का नाम",
+    "primaryCrops": "मुख्य फसलें",
+    "region": "क्षेत्र",
+    "about": "के बारे में",
+    "version": "ऐप संस्करण",
+    "rateApp": "ऐप को रेट करें",
+    "crops": {
+      "wheat": "गेहूं",
+      "tomato": "टमाटर",
+      "maize": "मक्का",
+      "rice": "चावल",
+      "cotton": "कपास",
+      "potato": "आलू",
+      "mustard": "सरसों",
+      "soybean": "सोयाबीन"
+    }
+  },
+  "common": {
+    "loading": "लोड हो रहा है...",
+    "error": "कुछ गलत हो गया",
+    "retry": "पुनः प्रयास करें",
+    "cancel": "रद्द करें",
+    "ok": "ठीक है",
+    "back": "वापस",
+    "save": "सहेजें",
+    "notificationPermission": "क्या FasalDoc को मौसमी रोग अलर्ट भेजने की अनुमति दें?",
+    "allow": "अनुमति दें",
+    "deny": "अस्वीकार करें"
+  }
+}

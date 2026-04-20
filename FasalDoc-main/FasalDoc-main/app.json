@@ -1,0 +1,10 @@
+{
+  "name": "FasalDoc",
+  "displayName": "FasalDoc",
+  "android": {
+    "package": "com.anonymous.fasaldoc"
+  },
+  "plugins": [
+    "expo-sqlite"
+  ]
+}
