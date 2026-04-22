@@ -1,14 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, useColorScheme } from 'react-native';
+import React, { useEffect, useState, Component, ReactNode } from 'react';
+import { View, Text, ActivityIndicator, useColorScheme, StyleSheet } from 'react-native';
 import { initI18n } from './i18n';
-import { initDB, getUnsyncedScans, markSynced } from './services/offlineDB';
 import { setupNotifications } from './services/notifications';
 import AppNavigator from './navigation/AppNavigator';
 import { getColors } from './constants/colors';
 import NetInfo from '@react-native-community/netinfo';
 import { syncHistory } from './services/api';
 
-const App: React.FC = () => {
+// ─── Error Boundary ────────────────────────────────────────────────────────────
+interface EBState { hasError: boolean; error: string }
+class ErrorBoundary extends Component<{ children: ReactNode }, EBState> {
+  state: EBState = { hasError: false, error: '' };
+  static getDerivedStateFromError(e: Error): EBState {
+    return { hasError: true, error: e.message };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <View style={eb.container}>
+          <Text style={eb.title}>Something went wrong</Text>
+          <Text style={eb.msg}>{this.state.error}</Text>
+        </View>
+      );
+    }
+    return this.props.children;
+  }
+}
+const eb = StyleSheet.create({
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
+  title: { fontSize: 18, fontWeight: '600', color: '#E24B4A', marginBottom: 12 },
+  msg: { fontSize: 13, color: '#555', textAlign: 'center' },
+});
+
+// ─── App ───────────────────────────────────────────────────────────────────────
+const AppInner: React.FC = () => {
   const scheme = useColorScheme();
   const C = getColors(scheme);
   const [isReady, setIsReady] = useState(false);
@@ -18,55 +43,44 @@ const App: React.FC = () => {
 
     const bootstrap = async () => {
       try {
-        // ✅ Init i18n
         await initI18n();
 
-        // ✅ Init SQLite (new sync API)
-        initDB();
+        // Lazy-require DB so a missing native module doesn't crash at module load time
+        try {
+          const { initDB } = require('./services/offlineDB');
+          initDB();
+        } catch (dbErr) {
+          console.warn('[App] DB init failed (memory-only mode):', dbErr);
+        }
 
-        // ✅ Setup notifications
         await setupNotifications();
 
-        // ✅ Network sync listener — sync unsynced records when online
         unsubscribe = NetInfo.addEventListener(async (state) => {
           if (state.isConnected) {
             try {
+              const { getUnsyncedScans, markSynced } = require('./services/offlineDB');
               const unsynced = getUnsyncedScans();
               if (unsynced.length > 0) {
                 await syncHistory(unsynced);
-                unsynced.forEach((r) => markSynced(r.id));
-                console.log(`✅ Synced ${unsynced.length} records`);
+                unsynced.forEach((r: { id: string }) => markSynced(r.id));
               }
-            } catch {
-              // silent fail — will retry on next connection
-            }
+            } catch { /* silent */ }
           }
         });
-
-        setIsReady(true);
       } catch (err) {
         console.error('[App] Bootstrap failed:', err);
-        setIsReady(true); // still show app even if bootstrap partially fails
+      } finally {
+        setIsReady(true);
       }
     };
 
     bootstrap();
-
-    return () => {
-      unsubscribe?.();
-    };
+    return () => unsubscribe?.();
   }, []);
 
   if (!isReady) {
     return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: C.GRAY_BG,
-        }}
-      >
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: C.GRAY_BG }}>
         <ActivityIndicator size="large" color={C.PRIMARY_GREEN} />
       </View>
     );
@@ -74,5 +88,11 @@ const App: React.FC = () => {
 
   return <AppNavigator />;
 };
+
+const App: React.FC = () => (
+  <ErrorBoundary>
+    <AppInner />
+  </ErrorBoundary>
+);
 
 export default App;
