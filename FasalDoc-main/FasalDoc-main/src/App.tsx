@@ -4,7 +4,8 @@ import { initI18n } from './i18n';
 import { setupNotifications } from './services/notifications';
 import AppNavigator from './navigation/AppNavigator';
 import { getColors } from './constants/colors';
-import NetInfo from '@react-native-community/netinfo';
+import * as Network from 'expo-network';
+import { AppState, AppStateStatus } from 'react-native';
 import { syncHistory } from './services/api';
 
 // ─── Error Boundary ────────────────────────────────────────────────────────────
@@ -55,18 +56,24 @@ const AppInner: React.FC = () => {
 
         await setupNotifications();
 
-        unsubscribe = NetInfo.addEventListener(async (state) => {
-          if (state.isConnected) {
-            try {
+        const syncIfOnline = async () => {
+          try {
+            const state = await Network.getNetworkStateAsync();
+            if (state.isConnected) {
               const { getUnsyncedScans, markSynced } = require('./services/offlineDB');
               const unsynced = getUnsyncedScans();
               if (unsynced.length > 0) {
                 await syncHistory(unsynced);
                 unsynced.forEach((r: { id: string }) => markSynced(r.id));
               }
-            } catch { /* silent */ }
-          }
+            }
+          } catch { /* silent */ }
+        };
+        syncIfOnline();
+        const appStateSub = AppState.addEventListener('change', (next: AppStateStatus) => {
+          if (next === 'active') syncIfOnline();
         });
+        unsubscribe = () => appStateSub.remove();
       } catch (err) {
         console.error('[App] Bootstrap failed:', err);
       } finally {

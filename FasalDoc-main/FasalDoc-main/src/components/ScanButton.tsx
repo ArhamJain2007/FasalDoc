@@ -13,7 +13,7 @@ import Animated, {
   withTiming,
   withSequence,
 } from 'react-native-reanimated';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import * as Haptics from 'expo-haptics';
 import { getColors } from '../constants/colors';
 import { BorderRadius, Fonts } from '../constants/fonts';
 
@@ -35,9 +35,8 @@ const ScanButton: React.FC<ScanButtonProps> = memo(
     const isPrimary = variant === 'primary';
 
     const handlePress = () => {
-      ReactNativeHapticFeedback.trigger('impactMedium', {
-        enableVibrateFallback: true,
-        ignoreAndroidSystemSettings: false,
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {
+        // Silently ignore on platforms that don't support haptics (web)
       });
 
       scale.value = withSequence(

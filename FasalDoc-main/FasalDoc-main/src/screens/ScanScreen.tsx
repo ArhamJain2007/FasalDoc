@@ -14,8 +14,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import NetInfo from '@react-native-community/netinfo';
+import * as ImagePicker from 'expo-image-picker';
+import * as Network from 'expo-network';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -23,8 +23,7 @@ import Animated, {
   withTiming,
   withSequence,
 } from 'react-native-reanimated';
-import 'react-native-get-random-values';
-import { v4 as uuidv4 } from 'uuid';
+import * as Crypto from 'expo-crypto';
 
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { getColors } from '../constants/colors';
@@ -56,10 +55,16 @@ const ScanScreen: React.FC = () => {
   const spinnerScale = useSharedValue(1);
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsOffline(!state.isConnected);
+    let isMounted = true;
+    const checkNetwork = async () => {
+      const state = await Network.getNetworkStateAsync();
+      if (isMounted) setIsOffline(!state.isConnected);
+    };
+    checkNetwork();
+    const sub = require('react-native').AppState.addEventListener('change', (next: string) => {
+      if (next === 'active') checkNetwork();
     });
-    return unsubscribe;
+    return () => { isMounted = false; sub.remove(); };
   }, []);
 
   useEffect(() => {
@@ -86,23 +91,26 @@ const ScanScreen: React.FC = () => {
   }));
 
   const handleCamera = useCallback(async () => {
-    const response = await launchCamera({
-      mediaType: 'photo',
-      quality: 0.85 as any,
-      saveToPhotos: false,
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') return;
+    const response = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.85,
     });
-    if (response.assets?.[0]?.uri) {
+    if (!response.canceled && response.assets?.[0]?.uri) {
       setImageUri(response.assets[0].uri);
       setResult(null);
     }
   }, []);
 
   const handleGallery = useCallback(async () => {
-    const response = await launchImageLibrary({
-      mediaType: 'photo',
-      quality: 0.85 as any,
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') return;
+    const response = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.85,
     });
-    if (response.assets?.[0]?.uri) {
+    if (!response.canceled && response.assets?.[0]?.uri) {
       setImageUri(response.assets[0].uri);
       setResult(null);
     }
@@ -131,7 +139,7 @@ const ScanScreen: React.FC = () => {
       }
 
       const record: ScanRecord = {
-        id: uuidv4(),
+        id: Crypto.randomUUID(),
         diseaseName: detected.diseaseName,
         cropName: detected.cropName,
         confidence: detected.confidence,
